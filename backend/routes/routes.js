@@ -76,7 +76,7 @@ router.put('/bookings/:id', getBooking, async (req, res) => {
 // Delete one booking
 router.delete('/bookings/:id', getBooking, async (req, res) => {
   try {
-    await res.booking.remove();
+    await res.booking.deleteOne();
     res.json({ message: 'Booking deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });
