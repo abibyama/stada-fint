@@ -1,27 +1,33 @@
 import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { Cleaner, Level } from "../types";
-import axios from "axios";
+import { AddBookingFormProps, Booking, Level } from "./types";
+import TimePicker from "react-time-picker";
 
-const AddBookingForm = () => {
+const AddBookingForm: React.FC<AddBookingFormProps> = ({ addBooking }) => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [serviceType, setServiceType] = useState("");
   const [cleaner, setCleaner] = useState("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const booking = {
-      date,
+    const booking: Booking = {
+      _id: '',
+      date: new Date(date),
       time,
-      serviceType,
+      serviceType: serviceType as Level,
       cleaner,
     };
-    axios.post("http://localhost:4000/bookings/", booking).then((res) => console.log(res.data));
-    setDate("");
-    setTime("");
-    setServiceType("");
-    setCleaner("");
+
+    try {
+      await addBooking(booking)
+      setDate("");
+      setTime("");
+      setServiceType("");
+      setCleaner("");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -40,20 +46,14 @@ const AddBookingForm = () => {
       </FormGroup>
       <FormGroup>
         <Label for="time">Time</Label>
-        <Input
-          type="select"
+        <TimePicker
           name="time"
           id="time"
-          placeholder="Select time"
+          disableClock={true}
           value={time}
-          onChange={(event) => setTime(event.target.value)}
+          onChange={(newTime) => setTime(newTime as string)}
           required
-        >
-          <option value="">Select time</option>
-          <option value="morning">Morning</option>
-          <option value="afternoon">Afternoon</option>
-          <option value="evening">Evening</option>
-        </Input>
+        />
       </FormGroup>
       <FormGroup>
         <Label for="serviceType">Service Type</Label>
@@ -85,7 +85,9 @@ const AddBookingForm = () => {
           required
         />
       </FormGroup>
-      <Button color="primary">Submit</Button>
+      <Button color="primary" type="submit">
+        Submit
+      </Button>
     </Form>
   );
 };

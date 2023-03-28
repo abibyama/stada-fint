@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import BookingList from "../../components/BookingList/BookingList";
-import AddBookingForm from "../../components/AddBookingForm/AddBookingForm"
-import { Booking } from "../../components/types";
+import BookingList from "../components/BookingList";
+import AddBookingForm from "../components/AddBookingForm"
+import { Booking } from "../components/types";
 
 const BookingPage = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
