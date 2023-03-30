@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { AddBookingFormProps, Booking, Level } from "./types";
 import TimePicker from "react-time-picker";
+import "../pages/BookingPage.css";
 
 const AddBookingForm: React.FC<AddBookingFormProps> = ({ addBooking }) => {
   const [date, setDate] = useState("");

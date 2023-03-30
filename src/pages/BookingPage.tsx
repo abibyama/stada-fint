@@ -4,6 +4,7 @@ import BookingList from "../components/BookingList";
 import CompletedBooking from "../components/CompletedBooking";
 import AddBookingForm from "../components/AddBookingForm"
 import { Booking } from "../components/types";
+import "./BookingPage.css";
 
 const BookingPage = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -99,7 +100,7 @@ const BookingPage = () => {
   const filteredPendingBooking = bookings.filter((booking) => !booking.completed)
   const filteredCompletedBookings = bookings.filter((booking) => booking.completed === true);
   return (
-    <div>
+    <div id="booking-page">
       <h1>Bookings</h1>
       <AddBookingForm addBooking={addBooking} />
       <BookingList
@@ -107,7 +108,6 @@ const BookingPage = () => {
         handleDelete={handleDelete}
         fetchBookings={fetchBookings}
         markBookingCompleted={markBookingCompleted} />
-      <h2>Completed Bookings</h2>
       <CompletedBooking bookings={filteredCompletedBookings} />
     </div>
   );

@@ -1,6 +1,8 @@
 import React from "react";
 import { Table, Button } from "reactstrap";
 import { Booking } from "./types";
+import "../pages/BookingPage.css";
+
 
 interface Props {
   bookings: Booking[];
@@ -15,7 +17,7 @@ const BookingList: React.FC<Props> = ({ bookings, handleDelete, markBookingCompl
   };
 
   return (
-    <>
+    <div className="booking-list">
       <h2>Pending Bookings</h2>
       <Table>
         <thead>
@@ -59,7 +61,8 @@ const BookingList: React.FC<Props> = ({ bookings, handleDelete, markBookingCompl
           })}
         </tbody>
       </Table>
-    </>
+      {bookings.length === 0 && <div className="no-bookings">No pending bookings</div>}
+    </div>
   );
 };
 

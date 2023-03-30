@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import Header from './components/Header'
+import Header from './pages/Header'
 import LandingPage from './pages/LandingPage'
 import BookingsPage from './pages/BookingPage'
 
