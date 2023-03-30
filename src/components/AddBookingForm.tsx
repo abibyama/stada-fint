@@ -17,6 +17,7 @@ const AddBookingForm: React.FC<AddBookingFormProps> = ({ addBooking }) => {
       time,
       serviceType: serviceType as Level,
       cleaner,
+      completed: false
     };
 
     try {

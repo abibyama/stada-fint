@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import BookingList from "../components/BookingList";
+import CompletedBooking from "../components/CompletedBooking";
 import AddBookingForm from "../components/AddBookingForm"
 import { Booking } from "../components/types";
 
 const BookingPage = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [completedBookings, setCompletedBookings] = useState<Booking[]>([]);
 
   const fetchBookings = async () => {
     try {
       const response = await axios.get("http://localhost:4000/api/bookings");
       setBookings(response.data);
+      console.log(response.data)
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    fetchBookings();
-  }, []);
+  // useEffect(() => {
+  //   fetchBookings();
+  //     const completed = bookings.filter((booking) => booking.completed);
+  //     setCompletedBookings(completed);
+  // }, [bookings]);
 
 
  const addBooking = async (booking: Booking) => {
@@ -46,32 +51,57 @@ const BookingPage = () => {
   }
 };
 
+const markBookingCompleted = async (id: string) => {
+  try {
+    await axios.patch(`http://localhost:4000/api/bookings/${id}`, {
+      completed: true,
+    });
+    const updatedBookings = bookings.map((booking) => {
+      if (booking._id === id) {
+        return { ...booking, completed: true };
+      }
+      return booking;
+    });
+    setBookings(updatedBookings);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-  const deleteBooking = async (id: string) => {
-    try {
-      await axios.delete(`http://localhost:4000/api/bookings/${id}`);
-      setBookings(bookings.filter((booking) => booking._id !== id));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+const deleteBooking = async (id: string) => {
+  try {
+    await axios.delete(`http://localhost:4000/api/bookings/${id}`);
+    setBookings(bookings.filter((booking) => booking._id !== id));
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteBooking(id);
-      await fetchBookings();
-    } catch (error) {
-      console.error(error);
-    }
-  };
+const handleDelete = async (id: string) => {
+  try {
+    await deleteBooking(id);
+    await fetchBookings();
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-  return (
-    <div>
-      <h1>Bookings</h1>
-      <AddBookingForm addBooking={addBooking} />
-      <BookingList bookings={bookings} handleDelete={handleDelete} fetchBookings={fetchBookings} />
-    </div>
-  );
+const filteredPendingBooking = bookings.filter((booking) => !booking.completed)
+const filteredCompletedBookings = bookings.filter((booking) => booking.completed === true);
+return (
+  <div>
+    <h1>Bookings</h1>
+    <button onClick={fetchBookings}>get booking</button>
+    <AddBookingForm addBooking={addBooking} />
+    <BookingList 
+    bookings={filteredPendingBooking} 
+    handleDelete={handleDelete} 
+    fetchBookings={fetchBookings} 
+    markBookingCompleted={markBookingCompleted} />
+    <h2>Completed Bookings</h2>
+    <CompletedBooking bookings={filteredCompletedBookings} />
+  </div>
+);
 };
 
 export default BookingPage;

@@ -62,6 +62,10 @@ router.put('/bookings/:id', getBooking, async (req, res) => {
       res.booking.cleaner = req.body.cleaner;
     }
 
+    if (req.body.complete != null) {
+      res.booking.complete = req.body.complete;
+    }
+
     try {
       const updatedBooking = await res.booking.save();
       res.json(updatedBooking);

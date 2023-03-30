@@ -19,6 +19,10 @@ const bookingSchema = new mongoose.Schema({
   cleaner:{
     type: String,
     required: true
+  },
+  complete: {
+    type: Boolean,
+    default: false
   }
 });
 

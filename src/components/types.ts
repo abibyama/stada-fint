@@ -11,6 +11,7 @@ export type Booking = {
   time: string;
   serviceType: Level;
   cleaner: string;
+  completed: boolean;
 };
 
 
