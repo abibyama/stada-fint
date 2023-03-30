@@ -9,8 +9,10 @@ interface Props {
   markBookingCompleted: (id: string) => Promise<void>;
 }
 
-const BookingList: React.FC<Props> = ({ bookings, handleDelete, fetchBookings }) => {
-
+const BookingList: React.FC<Props> = ({ bookings, handleDelete, markBookingCompleted }) => {
+  const handleCompleteBooking = async (id: string) => {
+    await markBookingCompleted(id);
+  };
 
   return (
     <>
@@ -36,10 +38,17 @@ const BookingList: React.FC<Props> = ({ bookings, handleDelete, fetchBookings })
                 <td>{booking.cleaner}</td>
                 <td>
                   <Button
+                    color="success"
+                    onClick={() => {
+                      handleCompleteBooking(booking._id);
+                    }}
+                  >
+                    Complete
+                  </Button>{" "}
+                  <Button
                     color="danger"
                     onClick={async () => {
                       await handleDelete(booking._id);
-                      await fetchBookings();
                     }}
                   >
                     Delete

@@ -13,95 +13,104 @@ const BookingPage = () => {
     try {
       const response = await axios.get("http://localhost:4000/api/bookings");
       setBookings(response.data);
-      console.log(response.data)
     } catch (error) {
       console.log(error);
     }
   };
 
-  // useEffect(() => {
-  //   fetchBookings();
-  //     const completed = bookings.filter((booking) => booking.completed);
-  //     setCompletedBookings(completed);
-  // }, [bookings]);
-
-
- const addBooking = async (booking: Booking) => {
-  try {
-    const existingBooking = bookings.find(
-      (b) =>
-        b.date === booking.date &&
-        b.time === booking.time &&
-        b.serviceType === booking.serviceType &&
-        b.cleaner === booking.cleaner
-    );
-    if (existingBooking) {
-      // If a booking with the same information already exists, do not add it again
-      console.log("This booking already exists");
-      return;
-    }
-
-    const response = await axios.post(
-      "http://localhost:4000/api/bookings",
-      booking
-    );
-    setBookings([...bookings, response.data]);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const markBookingCompleted = async (id: string) => {
-  try {
-    await axios.patch(`http://localhost:4000/api/bookings/${id}`, {
-      completed: true,
-    });
-    const updatedBookings = bookings.map((booking) => {
-      if (booking._id === id) {
-        return { ...booking, completed: true };
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/bookings");
+        setBookings(response.data);
+      } catch (error) {
+        console.log(error);
       }
-      return booking;
-    });
-    setBookings(updatedBookings);
-  } catch (error) {
-    console.log(error);
-  }
-};
+    };
 
-const deleteBooking = async (id: string) => {
-  try {
-    await axios.delete(`http://localhost:4000/api/bookings/${id}`);
-    setBookings(bookings.filter((booking) => booking._id !== id));
-  } catch (error) {
-    console.log(error);
-  }
-};
+    fetchBookings();
 
-const handleDelete = async (id: string) => {
-  try {
-    await deleteBooking(id);
-    await fetchBookings();
-  } catch (error) {
-    console.error(error);
-  }
-};
+    const filteredCompletedBookings = bookings.filter((booking) => booking.completed === true);
+    setCompletedBookings(filteredCompletedBookings);
+  }, []);
 
-const filteredPendingBooking = bookings.filter((booking) => !booking.completed)
-const filteredCompletedBookings = bookings.filter((booking) => booking.completed === true);
-return (
-  <div>
-    <h1>Bookings</h1>
-    <button onClick={fetchBookings}>get booking</button>
-    <AddBookingForm addBooking={addBooking} />
-    <BookingList 
-    bookings={filteredPendingBooking} 
-    handleDelete={handleDelete} 
-    fetchBookings={fetchBookings} 
-    markBookingCompleted={markBookingCompleted} />
-    <h2>Completed Bookings</h2>
-    <CompletedBooking bookings={filteredCompletedBookings} />
-  </div>
-);
+
+
+  const addBooking = async (booking: Booking) => {
+    try {
+      const existingBooking = bookings.find(
+        (b) =>
+          b.date === booking.date &&
+          b.time === booking.time &&
+          b.serviceType === booking.serviceType &&
+          b.cleaner === booking.cleaner
+      );
+      if (existingBooking) {
+        // If a booking with the same information already exists, do not add it again
+        console.log("This booking already exists");
+        return;
+      }
+
+      const response = await axios.post(
+        "http://localhost:4000/api/bookings",
+        booking
+      );
+      setBookings([...bookings, response.data]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const markBookingCompleted = async (id: string) => {
+    try {
+      await axios.patch(`http://localhost:4000/api/bookings/${id}`, {
+        completed: true,
+      });
+      const updatedBookings = bookings.map((booking) => {
+        if (booking._id === id) {
+          return { ...booking, completed: true };
+        }
+        return booking;
+      });
+      setBookings(updatedBookings);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteBooking = async (id: string) => {
+    try {
+      await axios.delete(`http://localhost:4000/api/bookings/${id}`);
+      setBookings(bookings.filter((booking) => booking._id !== id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteBooking(id);
+      await fetchBookings();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const filteredPendingBooking = bookings.filter((booking) => !booking.completed)
+  const filteredCompletedBookings = bookings.filter((booking) => booking.completed === true);
+  return (
+    <div>
+      <h1>Bookings</h1>
+      <AddBookingForm addBooking={addBooking} />
+      <BookingList
+        bookings={filteredPendingBooking}
+        handleDelete={handleDelete}
+        fetchBookings={fetchBookings}
+        markBookingCompleted={markBookingCompleted} />
+      <h2>Completed Bookings</h2>
+      <CompletedBooking bookings={filteredCompletedBookings} />
+    </div>
+  );
 };
 
 export default BookingPage;

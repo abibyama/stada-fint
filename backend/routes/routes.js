@@ -44,7 +44,7 @@ router.post('/bookings', async (req, res) => {
 });
 
 // Update one booking
-router.put('/bookings/:id', getBooking, async (req, res) => {
+router.patch('/bookings/:id', getBooking, async (req, res) => {
   if (res.booking) {
     if (req.body.date != null) {
       res.booking.date = req.body.date;
