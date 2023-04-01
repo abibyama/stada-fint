@@ -13,15 +13,43 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.header {
+  background-color: #3f51b5;
   color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+}
+
+.header a:hover {
+  color: #cfd8dc;
+  text-decoration: none;
+}
+
+.header .navbar-brand {
+  margin-right: 20px;
+  font-size: 24px;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header .navbar-brand {
+    margin: 10px 0;
+  }
+
+  .header a {
+    margin: 10px 0;
+  }
 }
 
 .App-link {
@@ -36,4 +64,33 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: linear-gradient(to right bottom, #0099ff, #99ff99);
+}
+
+.landing-page h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+.landing-page button {
+  background-color: #fff;
+  color: #333;
+  font-size: 1.2rem;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+.landing-page button:hover {
+  background-color: #333;
+  color: #fff;
 }
