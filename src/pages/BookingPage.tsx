@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Params, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BookingList from "../components/BookingList";
 import CompletedBooking from "../components/CompletedBooking";
@@ -9,6 +10,10 @@ import "./BookingPage.css";
 const BookingPage = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [completedBookings, setCompletedBookings] = useState<Booking[]>([]);
+  const { customerName } = useParams<Params>();
+  const navigate = useNavigate();
+
+
 
   const fetchBookings = async () => {
     try {
@@ -20,20 +25,25 @@ const BookingPage = () => {
   };
 
   useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        const response = await axios.get("http://localhost:4000/api/bookings");
-        setBookings(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchBookings();
+    // Redirect to landing page if customer name is not available in URL parameters
+    if (!customerName) {
+      navigate("/");
+    } else {
+      const fetchBookings = async () => {
+        try {
+          const response = await axios.get("http://localhost:4000/api/bookings");
+          setBookings(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchBookings();
+    }
 
     const filteredCompletedBookings = bookings.filter((booking) => booking.completed === true);
     setCompletedBookings(filteredCompletedBookings);
-  }, []);
+  }, [customerName, navigate, bookings]);
+
 
 
 
@@ -101,7 +111,7 @@ const BookingPage = () => {
   const filteredCompletedBookings = bookings.filter((booking) => booking.completed === true);
   return (
     <div id="booking-page">
-      <h1>Bookings</h1>
+      <h1>Bookings for {customerName}</h1>
       <AddBookingForm addBooking={addBooking} />
       <BookingList
         bookings={filteredPendingBooking}

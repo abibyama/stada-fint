@@ -11,7 +11,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/bookings" element={<BookingsPage />} />
+        <Route path="/bookings/:customerName" element={<BookingsPage />} />
       </Routes>
     </div>
   );
