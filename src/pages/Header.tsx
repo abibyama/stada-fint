@@ -6,8 +6,11 @@ import "../App.css";
 const Header: React.FC = () => {
   return (
     <Navbar className="header">
-      <NavbarBrand tag={Link} to="/">House Cleaning</NavbarBrand>
+      <NavbarBrand tag={Link} to="/">CleanFine</NavbarBrand>
       <NavLink tag={Link} to="/bookings">Bookings</NavLink>
+      <NavLink tag={Link} to="/about">About us</NavLink>
+      <NavLink tag={Link} to="/contact">Contact</NavLink>
+
       <Nav className="ml-auto" navbar>
       </Nav>
     </Navbar>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { AddBookingFormProps, Booking, Level } from "./types";
 import TimePicker from "react-time-picker";
-import "../pages/BookingPage.css";
+import "./AddBooking.css";
 
 const AddBookingForm: React.FC<AddBookingFormProps> = ({ addBooking }) => {
   const [date, setDate] = useState("");
@@ -33,64 +33,111 @@ const AddBookingForm: React.FC<AddBookingFormProps> = ({ addBooking }) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <FormGroup>
-        <Label for="date">Date</Label>
-        <Input
-          type="date"
-          name="date"
-          id="date"
-          placeholder="Select date"
-          value={date}
-          onChange={(event) => setDate(event.target.value)}
-          required
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="time">Time</Label>
-        <TimePicker
-          name="time"
-          id="time"
-          disableClock={true}
-          value={time}
-          onChange={(newTime) => setTime(newTime as string)}
-          required
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="serviceType">Service Type</Label>
-        <Input
-          type="select"
-          name="serviceType"
-          id="serviceType"
-          placeholder="Select service type"
-          value={serviceType}
-          onChange={(event) => setServiceType(event.target.value as Level)}
-          required
-        >
-          <option value="">Select service type</option>
-          <option value={Level.Fönstertvätt}>{Level.Fönstertvätt}</option>
-          <option value={Level.Basic}>{Level.Basic}</option>
-          <option value={Level.Topp}>{Level.Topp}</option>
-          <option value={Level.Diamant}>{Level.Diamant}</option>
-        </Input>
-      </FormGroup>
-      <FormGroup>
-        <Label for="cleaner">Cleaner</Label>
-        <Input
-          type="text"
-          name="cleaner"
-          id="cleaner"
-          placeholder="Enter cleaner name"
-          value={cleaner}
-          onChange={(event) => setCleaner(event.target.value)}
-          required
-        />
-      </FormGroup>
-      <Button color="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
+    <div className="booking-form">
+      <Form onSubmit={handleSubmit}>
+        <div className="datetime-input">
+          <FormGroup>
+            <Label for="date">Date: </Label>
+            <Input
+              type="date"
+              name="date"
+              id="date"
+              placeholder="Select date"
+              value={date}
+              onChange={(event) => setDate(event.target.value)}
+              required
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="time">Time: </Label>
+            <TimePicker
+              name="time"
+              id="time"
+              disableClock={true}
+              value={time}
+              onChange={(newTime) => setTime(newTime as string)}
+              required
+            />
+          </FormGroup>
+        </div>
+
+        <FormGroup>
+          <Label for="cleaner">Cleaner: </Label>
+          <Input
+            type="select"
+            name="cleaner"
+            id="cleaner"
+            placeholder="Select cleaner"
+            value={cleaner}
+            onChange={(event) => setCleaner(event.target.value)}
+            required
+          >
+            <option value="">Select cleaner</option>
+            <option value="Alice">Alice</option>
+            <option value="Bob">Bob</option>
+            <option value="Charlie">Charlie</option>
+          </Input>
+        </FormGroup>
+
+        <FormGroup>
+          <Label for="serviceType">Service Type: </Label>
+          <div>
+            <FormGroup check inline>
+              <Label check>
+                <Input type="radio" name="serviceType"
+                  value={Level.Fönstertvätt}
+                  checked={serviceType === Level.Fönstertvätt}
+                  onChange={(event) => setServiceType(event.target.value as Level)}
+                  required />
+                {' '}
+                {Level.Fönstertvätt}
+              </Label>
+            </FormGroup>
+            <FormGroup check inline>
+              <Label check>
+                <Input type="radio"
+                  name="serviceType"
+                  value={Level.Basic}
+                  checked={serviceType === Level.Basic}
+                  onChange={(event) => setServiceType(event.target.value as Level)}
+                  required />
+                {' '}
+                {Level.Basic}
+              </Label>
+            </FormGroup>
+            <FormGroup check inline>
+              <Label check>
+                <Input type="radio"
+                  name="serviceType"
+                  value={Level.Topp}
+                  checked={serviceType === Level.Topp}
+                  onChange={(event) => setServiceType(event.target.value as Level)}
+                  required />
+                {' '}
+                {Level.Topp}
+              </Label>
+            </FormGroup>
+            <FormGroup check inline>
+              <Label check>
+                <Input type="radio"
+                  name="serviceType" value={Level.Diamant}
+                  checked={serviceType === Level.Diamant}
+                  onChange={(event) => setServiceType(event.target.value as Level)}
+                  required />
+                {' '}
+                {Level.Diamant}
+              </Label>
+            </FormGroup>
+          </div>
+        </FormGroup>
+
+
+
+        <Button type="submit">
+          Submit
+        </Button>
+      </Form>
+    </div>
   );
 };
 

@@ -115,7 +115,8 @@ const BookingPage = () => {
   const filteredCompletedBookings = bookings.filter((booking) => booking.completed === true);
   return (
     <div id="booking-page">
-      <h1>Bookings for {customerName}</h1>
+      <h1>Welcome, {customerName}.</h1>
+      <h2>Please Book Your Appointment</h2>
       <AddBookingForm addBooking={addBooking} />
       <BookingList
         bookings={filteredPendingBooking}

@@ -7,12 +7,21 @@
   background-image: linear-gradient(to right bottom, #0099ff, #99ff99);
 }
 
+#booking-page h1 {
+  margin: 1em;
+  text-align: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+
+}
+
 
 .booking-list h2 {
   margin: 10px;
   text-align: center;
   justify-content: center;
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin-bottom: 2rem;
 }
 
@@ -22,6 +31,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size: 1.45rem;
+
 }
 
 .booking-list .no-bookings {
@@ -31,11 +42,7 @@
 }
 
 .booking-list tbody tr {
-  cursor: pointer;
-}
-
-.booking-list tbody tr:hover {
-  background-color: #f5f5f5;
+  cursor: default;
 }
 
 .booking-list tbody td {
@@ -43,15 +50,20 @@
 }
 
 .booking-list .btn {
-  padding: 10px 5px;
-  /* margin-right: 5px; */
-  margin-left: 5px;
-  font-size: 12px;
+  background-color: #069bc4fb;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .booking-list .btn-success {
-  background-color: #28a745;
-  border-color: #28a745;
+  background-color: #069bc4fb;
 }
 
 .booking-list .btn-danger {

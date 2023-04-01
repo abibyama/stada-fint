@@ -17,11 +17,11 @@ const LandingPage = () => {
 
   return (
     <div className="landing-page">
-      <h1>Welcome to CleanBooking!</h1>
-      <p>Book your cleaning appointment today!</p>
+      <h1>Welcome to CleanFine!</h1>
+      <h2>Book your cleaning appointment today!</h2>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
-          <Label for="customerName">Customer Name:</Label>
+          <Label for="customerName">Customer Name: </Label>
           <Input
             type="text"
             name="customerName"
