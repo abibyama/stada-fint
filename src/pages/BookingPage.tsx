@@ -39,10 +39,14 @@ const BookingPage = () => {
       };
       fetchBookings();
     }
+  }, [customerName, navigate]);
 
-    const filteredCompletedBookings = bookings.filter((booking) => booking.completed === true);
+  useEffect(() => {
+    const filteredCompletedBookings = bookings.filter(
+      (booking) => booking.completed === true
+    );
     setCompletedBookings(filteredCompletedBookings);
-  }, [customerName, navigate, bookings]);
+  }, [bookings]);
 
 
 
