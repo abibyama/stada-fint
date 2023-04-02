@@ -2,6 +2,9 @@ import React from "react";
 import { Table, Button } from "reactstrap";
 import { Booking } from "./types";
 import "../pages/BookingPage.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 interface Props {
@@ -16,21 +19,32 @@ const BookingList: React.FC<Props> = ({ bookings, handleDelete, markBookingCompl
     await markBookingCompleted(id);
   };
 
+  const sortedBookings = [...bookings].sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateA.getTime() - dateB.getTime();
+  });
+
+
+
   return (
     <div className="booking-list">
       <h2>Pending Bookings</h2>
-      <Table>
+      <Table
+        borderless
+        hover
+        size=""
+      >
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Service Type</th>
-            <th>Cleaner</th>
-            <th></th>
+            <th scope="row">Date</th>
+            <th scope="row">Time</th>
+            <th scope="row">Service Type</th>
+            <th scope="row">Cleaner</th>
           </tr>
         </thead>
         <tbody>
-          {bookings.map((booking) => {
+          {sortedBookings.map((booking) => {
             const date = new Date(booking.date);
             return (
               <tr key={booking._id}>
@@ -51,9 +65,8 @@ const BookingList: React.FC<Props> = ({ bookings, handleDelete, markBookingCompl
                     color="danger"
                     onClick={async () => {
                       await handleDelete(booking._id);
-                    }}
-                  >
-                    Delete
+                    }}>
+                    <FontAwesomeIcon icon={faTrash} style={{ color: "#dc3545", }} />
                   </Button>
                 </td>
               </tr>

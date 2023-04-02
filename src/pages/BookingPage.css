@@ -3,8 +3,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
   background-image: linear-gradient(to right bottom, #0099ff, #99ff99);
+  width: 100%;
 }
 
 #booking-page h1 {
@@ -21,7 +22,7 @@
   margin: 10px;
   text-align: center;
   justify-content: center;
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   margin-bottom: 2rem;
 }
 
@@ -29,15 +30,14 @@
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   font-size: 1.45rem;
-
 }
 
 .booking-list .no-bookings {
   font-style: italic;
-  color: #999;
+  color: #4e4a4a;
   margin-top: 10px;
 }
 
@@ -68,8 +68,14 @@
 
 .booking-list .btn-danger {
   background-color: #dc3545;
-  border-color: #dc3545;
 }
+
+
+.booking-list .btn:hover {
+  background-color: #0044ff;
+  color: #fff;
+}
+
 
 .completed-booking-list {
   margin-top: 20px;
@@ -83,5 +89,6 @@
 
 .completed-booking-list h2 {
   margin-top: 1rem;
+  font-size: 2.25rem;
 
 }

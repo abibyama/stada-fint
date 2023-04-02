@@ -37,7 +37,7 @@ const AddBookingForm: React.FC<AddBookingFormProps> = ({ addBooking }) => {
       <Form onSubmit={handleSubmit}>
         <div className="datetime-input">
           <FormGroup>
-            <Label for="date">Date: </Label>
+            <Label for="date" className="date-label">Date and Time: </Label>
             <Input
               type="date"
               name="date"
@@ -49,7 +49,7 @@ const AddBookingForm: React.FC<AddBookingFormProps> = ({ addBooking }) => {
             />
           </FormGroup>
           <FormGroup>
-            <Label for="time">Time: </Label>
+            <Label for="time" className="time-label"> At: </Label>
             <TimePicker
               name="time"
               id="time"
@@ -73,9 +73,11 @@ const AddBookingForm: React.FC<AddBookingFormProps> = ({ addBooking }) => {
             required
           >
             <option value="">Select cleaner</option>
-            <option value="Alice">Alice</option>
-            <option value="Bob">Bob</option>
-            <option value="Charlie">Charlie</option>
+            <option value="Mohamed">Mohamed</option>
+            <option value="Abdullahi">Abdullahi</option>
+            <option value="Zakariye">Zakariye</option>
+            <option value="Ehsan">Ehsan</option>
+            <option value="Daner">Daner</option>
           </Input>
         </FormGroup>
 

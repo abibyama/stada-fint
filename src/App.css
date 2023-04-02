@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-image: linear-gradient(to right bottom, #0099ff, #99ff99);
 }
 
 .App-logo {
@@ -34,8 +35,6 @@
 }
 
 .header .navbar-brand {
-  margin: 20px;
-  padding-top: 2000px;
   font-size: 2em;
   font-weight: bolder;
 }
@@ -80,7 +79,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: linear-gradient(to right bottom, #0099ff, #99ff99);
+
 }
 
 .landing-page h1 {
