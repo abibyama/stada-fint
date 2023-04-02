@@ -13,16 +13,26 @@ const BookingPage = () => {
   const { customerName } = useParams<Params>();
   const navigate = useNavigate();
 
+  const getBookingsFromLocalStorage = () => {
+    const bookings = localStorage.getItem("bookings");
+    return bookings ? JSON.parse(bookings) : [];
+  };
 
 
   const fetchBookings = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/bookings");
-      setBookings(response.data);
+      let bookings = getBookingsFromLocalStorage();
+      if (bookings.length === 0) {
+        const response = await axios.get("http://localhost:4000/api/bookings");
+        bookings = response.data;
+        localStorage.setItem("bookings", JSON.stringify(bookings));
+      }
+      setBookings(bookings);
     } catch (error) {
       console.log(error);
     }
   };
+
 
   useEffect(() => {
     // Redirect to landing page if customer name is not available in URL parameters
@@ -46,8 +56,7 @@ const BookingPage = () => {
       (booking) => booking.completed === true
     );
     setCompletedBookings(filteredCompletedBookings);
-  }, [bookings]);
-
+  }, [bookings])
 
 
 
@@ -70,7 +79,9 @@ const BookingPage = () => {
         "http://localhost:4000/api/bookings",
         booking
       );
-      setBookings([...bookings, response.data]);
+      const newBooking = response.data;
+      setBookings([...bookings, newBooking]);
+      localStorage.setItem("bookings", JSON.stringify([...bookings, newBooking]));
     } catch (error) {
       console.log(error);
     }
@@ -88,6 +99,7 @@ const BookingPage = () => {
         return booking;
       });
       setBookings(updatedBookings);
+      localStorage.setItem("bookings", JSON.stringify(updatedBookings));
     } catch (error) {
       console.log(error);
     }
@@ -96,7 +108,9 @@ const BookingPage = () => {
   const deleteBooking = async (id: string) => {
     try {
       await axios.delete(`http://localhost:4000/api/bookings/${id}`);
-      setBookings(bookings.filter((booking) => booking._id !== id));
+      const updatedBookings = bookings.filter((booking) => booking._id !== id);
+      setBookings(updatedBookings);
+      localStorage.setItem("bookings", JSON.stringify(updatedBookings));
     } catch (error) {
       console.log(error);
     }
@@ -123,7 +137,10 @@ const BookingPage = () => {
         handleDelete={handleDelete}
         fetchBookings={fetchBookings}
         markBookingCompleted={markBookingCompleted} />
-      <CompletedBooking bookings={filteredCompletedBookings} />
+      <CompletedBooking bookings={filteredCompletedBookings}
+        handleDelete={handleDelete}
+        fetchBookings={fetchBookings}
+      />
     </div>
   );
 };

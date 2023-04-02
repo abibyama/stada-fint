@@ -62,7 +62,6 @@ const BookingList: React.FC<Props> = ({ bookings, handleDelete, markBookingCompl
                     Complete
                   </Button>{" "}
                   <Button
-                    color="danger"
                     onClick={async () => {
                       await handleDelete(booking._id);
                     }}>
