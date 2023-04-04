@@ -89,7 +89,16 @@ const BookingPage = () => {
     }
   };
   
-
+  const fetchBookings2 = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/api/bookings");
+      const bookings = await response.json();
+      setBookings(bookings);
+    } catch (error) {
+      console.error(`Error fetching bookings: ${error}`);
+    }
+  };
+  
 
 
 /*
@@ -173,7 +182,7 @@ const BookingPage = () => {
         markBookingCompleted={markBookingCompleted} />
       <CompletedBooking bookings={filteredCompletedBookings}
         handleDelete={handleDelete}
-        fetchBookings={fetchBookings}
+        fetchBookings={fetchBookings2}
       />
     </div>
   );

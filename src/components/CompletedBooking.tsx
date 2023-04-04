@@ -69,6 +69,7 @@ interface Props {
 
 const CompletedBooking: React.FC<Props> = ({ bookings, handleDelete, fetchBookings }) => {
   const [selectedBookings, setSelectedBookings] = useState<string[]>([]);
+ 
 
   const sortedBookings = [...bookings].sort((a, b) => {
     const dateA = new Date(a.date);
@@ -84,14 +85,30 @@ const CompletedBooking: React.FC<Props> = ({ bookings, handleDelete, fetchBookin
     }
   };
 
-  const handleDeleteSelectedBookings = async () => {
-    // call the delete function for each selected booking
-    await Promise.all(selectedBookings.map((id) => handleDelete(id)));
-    // clear the selection
-    setSelectedBookings([]);
-    // refetch the bookings
-    await fetchBookings();
-  };
+  const deleteMultipleBookings = async (ids: string[], deleteBooking: (id: string) => Promise<void>) => {
+  try {
+    // delete the selected bookings
+    await Promise.all(ids.map((id) => deleteBooking(id)));
+    
+    // return a success message or perform any other actions you need to do after deletion
+    console.log(`Deleted ${ids.length} bookings successfully!`);
+    
+  } catch (error) {
+    // Handle the error if necessary
+    console.error(`Error deleting bookings: ${error}`);
+  }
+};
+
+
+ const handleDeleteSelectedBookings = async () => {
+  // call the delete function for each selected booking
+  await Promise.all(selectedBookings.map((id) => handleDelete(id)));
+  // clear the selection
+  setSelectedBookings([]);
+  // refetch the bookings
+  await fetchBookings();
+};
+
 
   return (
     <div className="completed-booking-list">
@@ -126,7 +143,7 @@ const CompletedBooking: React.FC<Props> = ({ bookings, handleDelete, fetchBookin
             );
           })}
         </tbody>
-      </Table>
+      </Table> 
       {selectedBookings.length > 0 && (
         <Button color="danger" onClick={handleDeleteSelectedBookings}>Delete Selected Bookings</Button>
       )}
