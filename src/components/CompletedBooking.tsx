@@ -69,6 +69,8 @@ interface Props {
 
 const CompletedBooking: React.FC<Props> = ({ bookings, handleDelete, fetchBookings }) => {
   const [selectedBookings, setSelectedBookings] = useState<string[]>([]);
+  const [bookings2, setBookings] = useState<Booking[]>([]);
+
  
 
   const sortedBookings = [...bookings].sort((a, b) => {
@@ -87,27 +89,23 @@ const CompletedBooking: React.FC<Props> = ({ bookings, handleDelete, fetchBookin
 
   const deleteMultipleBookings = async (ids: string[], deleteBooking: (id: string) => Promise<void>) => {
   try {
-    // delete the selected bookings
     await Promise.all(ids.map((id) => deleteBooking(id)));
-    
-    // return a success message or perform any other actions you need to do after deletion
     console.log(`Deleted ${ids.length} bookings successfully!`);
     
   } catch (error) {
-    // Handle the error if necessary
     console.error(`Error deleting bookings: ${error}`);
   }
 };
 
 
- const handleDeleteSelectedBookings = async () => {
-  // call the delete function for each selected booking
+const handleDeleteSelectedBookings = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  event.preventDefault();
   await Promise.all(selectedBookings.map((id) => handleDelete(id)));
-  // clear the selection
   setSelectedBookings([]);
-  // refetch the bookings
-  await fetchBookings();
+  const updatedBookings = bookings.filter((booking) => !selectedBookings.includes(booking._id));
+  setBookings(updatedBookings);
 };
+
 
 
   return (

@@ -4,6 +4,7 @@ import './App.css';
 import Header from './pages/Header'
 import LandingPage from './pages/LandingPage'
 import BookingsPage from './pages/BookingPage'
+import About from './pages/About';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/bookings/:customerName" element={<BookingsPage />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </div>
   );
