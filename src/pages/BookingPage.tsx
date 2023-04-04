@@ -12,6 +12,8 @@ const BookingPage = () => {
   const [completedBookings, setCompletedBookings] = useState<Booking[]>([]);
   const { customerName } = useParams<Params>();
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+
 
   const getBookingsFromLocalStorage = () => {
     const bookings = localStorage.getItem("bookings");
@@ -59,7 +61,38 @@ const BookingPage = () => {
   }, [bookings])
 
 
+  const addBooking = async (booking: Booking) => {
+    try {
+      const existingBooking = bookings.find(
+        (b) =>
+          b.date === booking.date &&
+          b.time === booking.time &&
+          b.serviceType === booking.serviceType &&
+          b.cleaner === booking.cleaner
+      );
+      if (existingBooking) {
+        console.log("This booking already exists");
+        return;
+      }
+  
+      const response = await axios.post(
+        "http://localhost:4000/api/bookings",
+        booking
+      );
+      const newBooking = response.data;
+      setBookings([...bookings, newBooking]);
+      localStorage.setItem("bookings", JSON.stringify([...bookings, newBooking]));
+      setMessage("Bokade denna "); 
+    } catch (error) {
+      console.log(error);
+      setMessage("Blev inte bokad, försök igen"); 
+    }
+  };
+  
 
+
+
+/*
   const addBooking = async (booking: Booking) => {
     try {
       const existingBooking = bookings.find(
@@ -85,7 +118,7 @@ const BookingPage = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  };*/
 
   const markBookingCompleted = async (id: string) => {
     try {
@@ -132,6 +165,7 @@ const BookingPage = () => {
       <h1>Welcome, {customerName}.</h1>
       <h2>Please Book Your Appointment</h2>
       <AddBookingForm addBooking={addBooking} />
+      <div className="message">{message}</div>
       <BookingList
         bookings={filteredPendingBooking}
         handleDelete={handleDelete}
