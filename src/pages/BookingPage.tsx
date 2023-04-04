@@ -6,6 +6,7 @@ import CompletedBooking from "../components/CompletedBooking";
 import AddBookingForm from "../components/AddBookingForm"
 import { Booking } from "../components/types";
 import "./BookingPage.css";
+import Footer from "./Footer";
 
 const BookingPage = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -183,7 +184,8 @@ const BookingPage = () => {
       <CompletedBooking bookings={filteredCompletedBookings}
         handleDelete={handleDelete}
         fetchBookings={fetchBookings2}
-      />
+        
+      /> <Footer/>
     </div>
   );
 };

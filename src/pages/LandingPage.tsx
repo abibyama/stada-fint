@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import "../App.css"
+import Footer from "./Footer";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const LandingPage = () => {
         </Button>
         {nameEntered}
       </Form>
+      <Footer/>
     </div>
   );
 };
