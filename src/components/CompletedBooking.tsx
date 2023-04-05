@@ -1,60 +1,3 @@
-// import React from "react";
-// import { Table } from "reactstrap";
-// import { Booking } from "./types";
-// import "../pages/BookingPage.css";
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// interface Props {
-//   bookings: Booking[];
-// }
-
-// const CompletedBooking: React.FC<Props> = ({ bookings }) => {
-
-//   const sortedBookings = [...bookings].sort((a, b) => {
-//     const dateA = new Date(a.date);
-//     const dateB = new Date(b.date);
-//     return dateA.getTime() - dateB.getTime();
-//   });
-
-
-//   return (
-//     <div className="completed-booking-list">
-//       <h2>Completed Bookings</h2>
-//       <Table
-//         bordered
-//         striped
-//         hover
-//         size=""
-//       >
-
-//         <thead>
-//           <tr>
-//             <th>Date</th>
-//             <th>Time</th>
-//             <th>Service Type</th>
-//             <th>Cleaner</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {sortedBookings.map((booking) => {
-//             const date = new Date(booking.date);
-//             return (
-//               <tr key={booking._id}>
-//                 <td>{date.toLocaleDateString()}</td>
-//                 <td>{booking.time}</td>
-//                 <td>{booking.serviceType}</td>
-//                 <td>{booking.cleaner}</td>
-//               </tr>
-//             );
-//           })}
-//         </tbody>
-//       </Table>
-//     </div>
-//   );
-// };
-
-// export default CompletedBooking;
-
-
 import React, { useState } from "react";
 import { Table, Button } from "reactstrap";
 import { Booking } from "./types";
@@ -87,23 +30,24 @@ const CompletedBooking: React.FC<Props> = ({ bookings, handleDelete, fetchBookin
     }
   };
 
-  const deleteMultipleBookings = async (ids: string[], deleteBooking: (id: string) => Promise<void>) => {
-  try {
-    await Promise.all(ids.map((id) => deleteBooking(id)));
-    console.log(`Deleted ${ids.length} bookings successfully!`);
-    
-  } catch (error) {
-    console.error(`Error deleting bookings: ${error}`);
-  }
-};
-
 
 const handleDeleteSelectedBookings = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  // Prevent the form from submitting and refreshing the page
   event.preventDefault();
+
+  // Call the delete function for each selected booking
   await Promise.all(selectedBookings.map((id) => handleDelete(id)));
-  setSelectedBookings([]);
-  const updatedBookings = bookings.filter((booking) => !selectedBookings.includes(booking._id));
-  setBookings(updatedBookings);
+
+  // Get the checked boxes that were selected
+  const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
+
+  // Remove the parent <tr> element of each selected checked box
+  checkedBoxes.forEach((box) => {
+    const row = box.closest('tr');
+    if (row) {
+      row.remove();
+    }
+  });
 };
 
 
